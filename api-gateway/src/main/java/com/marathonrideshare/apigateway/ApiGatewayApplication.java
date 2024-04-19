@@ -17,11 +17,9 @@ public class ApiGatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
-                        .path("/get")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
-                        .uri("http://httpbin.org:80"))
+                        .path("/api/in-ride-chat/**")
+                        .filters(f -> f.rewritePath("/api/in-ride-chat/(?<segment>.*)", "/${segment}"))
+                        .uri("http://localhost:8081"))
                 .build();
     }
-
 }
-
