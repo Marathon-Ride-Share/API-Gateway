@@ -17,14 +17,9 @@ public class ApiGatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
-                        .path("/api/in-ride-chat/send")  // Handle send specifically
-                        .filters(f -> f.rewritePath("/api/in-ride-chat/send", "/chat/send"))
-                        .uri("http://localhost:8081"))
-                .route(p -> p
-                        .path("/api/in-ride-chat/receive")  // Handle receive specifically
-                        .filters(f -> f.rewritePath("/api/in-ride-chat/receive", "/chat/receive"))
+                        .path("/api/chat/**")
+                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
                         .uri("http://localhost:8081"))
                 .build();
     }
-
 }
