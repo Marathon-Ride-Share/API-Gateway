@@ -20,6 +20,10 @@ public class ApiGatewayApplication {
                         .path("/api/chat/**")
                         .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
                         .uri("http://localhost:8081"))
+                .route(p -> p
+                        .path("/api/users/**")
+                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/users/${segment}"))
+                        .uri("http://localhost:8060"))
                 .build();
     }
 }
