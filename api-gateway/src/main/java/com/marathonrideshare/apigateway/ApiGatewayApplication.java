@@ -15,7 +15,12 @@ public class ApiGatewayApplication {
     }
 
     @Bean
-    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
+    @Bean
+    public RouteLocator myRoutes(RouteLocatorBuilder builder, JwtAuthenticationFilter JwtFilter) {
         return builder.routes()
                 .route(p -> p
                         .path("/api/users/login")
@@ -28,13 +33,11 @@ public class ApiGatewayApplication {
                 .route(p -> p
                         .path("/api/users/**")
                         .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}")
-                                        .filter(new JwtAuthenticationFilter()))
-                        .uri("http://localhost:8060"))
+                        .uri("http://localhost:8060")))
                 .route(p -> p
                         .path("/api/chat/**")
                         .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}")
-                                        .filter(new JwtAuthenticationFilter()))
-                        .uri("http://localhost:8081"))
+                        .uri("http://localhost:8081")))
                 .build();
     }
 }

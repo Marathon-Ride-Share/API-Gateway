@@ -1,2 +1,1 @@
-com/marathonrideshare/apigateway/config/CorsGlobalConfiguration.class
-com/marathonrideshare/apigateway/ApiGatewayApplication.class
+com/marathonrideshare/apigateway/filters/JwtAuthenticationFilter.class
