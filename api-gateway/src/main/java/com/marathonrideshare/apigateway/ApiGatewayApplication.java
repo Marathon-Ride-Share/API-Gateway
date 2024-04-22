@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import com.marathonrideshare.apigateway.filters.JwtAuthenticationFilter;
 
 @SpringBootApplication
 public class ApiGatewayApplication {
@@ -17,13 +18,23 @@ public class ApiGatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
-                        .path("/api/chat/**")
-                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
-                        .uri("http://localhost:8081"))
+                        .path("/api/users/login")
+                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .uri("http://localhost:8060"))
+                .route(p -> p
+                        .path("/api/users/register")
+                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .uri("http://localhost:8060"))
                 .route(p -> p
                         .path("/api/users/**")
-                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/users/${segment}"))
+                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}")
+                                        .filter(new JwtAuthenticationFilter()))
                         .uri("http://localhost:8060"))
+                .route(p -> p
+                        .path("/api/chat/**")
+                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}")
+                                        .filter(new JwtAuthenticationFilter()))
+                        .uri("http://localhost:8081"))
                 .build();
     }
 }
