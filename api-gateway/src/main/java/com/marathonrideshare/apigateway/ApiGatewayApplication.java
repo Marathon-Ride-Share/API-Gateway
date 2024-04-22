@@ -32,12 +32,13 @@ public class ApiGatewayApplication {
                         .uri("http://localhost:8060"))
                 .route(p -> p
                         .path("/api/users/**")
-                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}")
-                        .uri("http://localhost:8060")))
+                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .uri("http://localhost:8060"))
                 .route(p -> p
                         .path("/api/chat/**")
-                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}")
-                        .uri("http://localhost:8081")))
+                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
+                        .uri("http://localhost:8081"))
                 .build();
     }
+
 }
