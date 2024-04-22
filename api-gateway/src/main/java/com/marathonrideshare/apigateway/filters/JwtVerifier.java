@@ -16,16 +16,14 @@ public class JwtVerifier extends OncePerRequestFilter {
 
             try {
                 Claims claims = Jwts.parser()
-                        .setSigningKey("secret_key") // Replace with the actual key
+                        .setSigningKey("secret_key") 
                         .parseClaimsJws(token)
                         .getBody();
 
                 String username = claims.getSubject();
                 var authorities = (List<Map<String, String>>) claims.get("authorities");
 
-                // Create auth object
-                // This is what Spring uses to determine user permissions.
-                // Replace `List.of` with the correct authority parsing logic
+            
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         username,
                         null,
@@ -34,7 +32,6 @@ public class JwtVerifier extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                //In case of failure. Make sure it's clear; so guarantee user won't be authenticated
                 SecurityContextHolder.clearContext();
             }
         }

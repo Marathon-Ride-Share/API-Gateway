@@ -18,8 +18,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
-            // Validate the token
-            // If token is valid, set the authentication in the context
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
