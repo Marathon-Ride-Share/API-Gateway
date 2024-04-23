@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         System.out.println("PATH!!!!!!!! " + path);
 
         // Bypass JWT check for registration endpoint
-        if (path.equals("/users/register")) {
+        if (path.equals("/users/register") || path.equals("/users/login")) {
             System.out.println("Moving forward!!!!");
             return chain.filter(exchange);
         }
