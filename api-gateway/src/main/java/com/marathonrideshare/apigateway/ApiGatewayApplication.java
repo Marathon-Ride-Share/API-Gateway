@@ -36,9 +36,9 @@ public class ApiGatewayApplication {
                         .filters(f -> f.rewritePath("/users/(?<segment>.*)", "/users/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
-                        .path("/api/chat/**")
-                        .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
-                        .uri("http://localhost:8081"))
+                        .path("/chat/**")
+                        .filters(f -> f.rewritePath("/chat/(?<segment>.*)", "/chat/${segment}"))
+                        .uri("http://localhost:8083"))
                 .route(p -> p
                         .path("/rides/**")
                         .filters(f -> f.rewritePath("/rides/(?<segment>.*)", "/rides/${segment}"))
