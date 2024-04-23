@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import com.marathonrideshare.apigateway.filters.JwtAuthenticationFilter;
+import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 public class ApiGatewayApplication {
@@ -23,12 +24,12 @@ public class ApiGatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, JwtAuthenticationFilter JwtFilter) {
         return builder.routes()
                 .route(p -> p
-                        .path("api/users/login")
-                        .filters(f -> f.rewritePath("api/users/login/(?<segment>.*)", "api/users/login/${segment}"))
+                        .path("users/login")
+                        .filters(f -> f.rewritePath("users/login/(?<segment>.*)", "users/login/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
-                        .path("api/users/register")
-                        .filters(f -> f.rewritePath("api/users/register/(?<segment>.*)", "api/users/register/${segment}"))
+                        .path("users/register")
+                        .filters(f -> f.rewritePath("users/register/(?<segment>.*)", "users/register/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
                         .path("/users/**")

@@ -14,9 +14,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
+import org.springframework.http.HttpHeaders;
+
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
     private static final String SECRET_KEY = System.getenv("JWT_SECRET") != null ? System.getenv("JWT_SECRET") : "marathon-ride-share-applications-secret-key";
@@ -57,12 +59,15 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        return chain.filter(exchange);
+        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+            HttpHeaders headers = exchange.getResponse().getHeaders();
+            System.out.println("Response Headers: " + headers);
+        }));
     }
 
     @Override
     public int getOrder() {
-        return -100; // Maintain high precedence for security filtering
+        return Integer.MAX_VALUE; // Maintain high precedence for security filtering
     }
 
 }
