@@ -46,6 +46,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                         .build()
                         .parseClaimsJws(token)
                         .getBody();
+                System.out.println("Authorised via token!!!!");
 
             } catch (Exception e) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
