@@ -1,3 +1,3 @@
-/Users/yuyang/Desktop/18653/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/config/CorsGlobalConfiguration.java
-/Users/yuyang/Desktop/18653/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/filters/JwtAuthenticationFilter.java
-/Users/yuyang/Desktop/18653/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/ApiGatewayApplication.java
+/Users/huanghaixin/Desktop/courses/18653sda/group/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/filters/JwtAuthenticationFilter.java
+/Users/huanghaixin/Desktop/courses/18653sda/group/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/ApiGatewayApplication.java
+/Users/huanghaixin/Desktop/courses/18653sda/group/API-Gateway/api-gateway/src/main/java/com/marathonrideshare/apigateway/config/CorsGlobalConfiguration.java

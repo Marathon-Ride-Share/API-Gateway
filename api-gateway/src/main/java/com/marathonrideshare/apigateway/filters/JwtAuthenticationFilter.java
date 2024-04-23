@@ -1,3 +1,21 @@
+//package com.marathonrideshare.apigateway.filters;
+//
+//import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+//import org.springframework.cloud.gateway.filter.GlobalFilter;
+//import org.springframework.core.Ordered;
+//import org.springframework.stereotype.Component;
+//import org.springframework.web.server.ServerWebExchange;
+//import org.springframework.core.annotation.Order;
+//import org.springframework.http.HttpStatus;
+//import reactor.core.publisher.Mono;
+//import java.security.Key;
+//import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.SignatureAlgorithm;
+//import io.jsonwebtoken.security.Keys;
+//import java.nio.charset.StandardCharsets;
+//import org.springframework.http.HttpHeaders;
+
 package com.marathonrideshare.apigateway.filters;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -15,6 +33,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import org.springframework.http.HttpHeaders;
+import java.util.Optional;
+import org.springframework.http.HttpCookie;
+// rest of your code
 
 
 @Component
@@ -27,42 +48,48 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        String path = exchange.getRequest().getPath().toString();
-        System.out.println("PATH!!!!!!!! " + path);
+        return chain.filter(exchange);
 
-        // Bypass JWT check for registration endpoint
-        if (path.equals("/users/register") || path.equals("/users/login")) {
-            System.out.println("Moving forward!!!!");
-            return chain.filter(exchange);
-        }
-
-
-        String token = exchange.getRequest().getHeaders().getFirst("Authorization");
-
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7); // Remove "Bearer " prefix
-
-            try {
-                Claims claims = Jwts.parserBuilder()
-                        .setSigningKey(SIGNING_KEY)
-                        .build()
-                        .parseClaimsJws(token)
-                        .getBody();
-                System.out.println("Authorised via token!!!!");
-
-            } catch (Exception e) {
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                return exchange.getResponse().setComplete();
-            }
-        } else {
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            return exchange.getResponse().setComplete();
-        }
-
-        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-            HttpHeaders headers = exchange.getResponse().getHeaders();
-            System.out.println("Response Headers: " + headers);
-        }));
+//        String path = exchange.getRequest().getPath().toString();
+//        System.out.println("PATH!!!!!!!! " + path);
+//
+//        // Bypass JWT check for registration and login endpoints
+//        if (path.equals("/users/register") || path.equals("/users/login")) {
+//            System.out.println("Moving forward without token check.");
+//            return chain.filter(exchange);
+//        }
+//
+//        System.out.println("Checking for token cookie..." + exchange.getRequest().getCookies());
+//
+//        HttpCookie cookie = exchange.getRequest().getCookies().getFirst("token");
+//
+//
+//        if (cookie != null && !cookie.getValue().isEmpty()) {
+//            String token = cookie.getValue();
+//
+//            try {
+//                Claims claims = Jwts.parserBuilder()
+//                        .setSigningKey(SIGNING_KEY)
+//                        .build()
+//                        .parseClaimsJws(token)
+//                        .getBody();
+//                System.out.println("Authorized via token from cookie!");
+//
+//            } catch (Exception e) {
+//                System.out.println("Authentication failed: " + e.getMessage());
+//                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+//                return exchange.getResponse().setComplete();
+//            }
+//        } else {
+//            System.out.println("No token cookie found, unauthorized request.");
+//            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+//            return exchange.getResponse().setComplete();
+//        }
+//
+//        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+//            HttpHeaders headers = exchange.getResponse().getHeaders();
+//            System.out.println("Response Headers: " + headers);
+//        }));
     }
 
     @Override

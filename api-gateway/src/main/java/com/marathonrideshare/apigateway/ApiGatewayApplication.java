@@ -39,6 +39,10 @@ public class ApiGatewayApplication {
                         .path("/api/chat/**")
                         .filters(f -> f.rewritePath("/api/chat/(?<segment>.*)", "/chat/${segment}"))
                         .uri("http://localhost:8081"))
+                .route(p -> p
+                        .path("/rides/**")
+                        .filters(f -> f.rewritePath("/rides/(?<segment>.*)", "/rides/${segment}"))
+                        .uri("http://localhost:8082"))
                 .build();
     }
 
