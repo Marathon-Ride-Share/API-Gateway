@@ -13,12 +13,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
-    private Key signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Securely generate a key
+    private static final String SECRET_KEY = System.getenv("JWT_SECRET") != null ? System.getenv("JWT_SECRET") : "marathon-ride-share-applications-secret-key";
+    private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -40,10 +42,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
             try {
                 Claims claims = Jwts.parserBuilder()
-                        .setSigningKey(signingKey)
+                        .setSigningKey(SIGNING_KEY)
                         .build()
                         .parseClaimsJws(token)
                         .getBody();
+                System.out.println("Authorised via token!!!!");
 
             } catch (Exception e) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
