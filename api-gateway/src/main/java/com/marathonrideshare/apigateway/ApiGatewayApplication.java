@@ -23,16 +23,16 @@ public class ApiGatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, JwtAuthenticationFilter JwtFilter) {
         return builder.routes()
                 .route(p -> p
-                        .path("/api/users/login")
-                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .path("api/users/login")
+                        .filters(f -> f.rewritePath("api/users/login/(?<segment>.*)", "api/users/login/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
-                        .path("/api/users/register")
-                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .path("api/users/register")
+                        .filters(f -> f.rewritePath("api/users/register/(?<segment>.*)", "api/users/register/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
-                        .path("/api/users/**")
-                        .filters(f -> f.rewritePath("/api/users/(?<segment>.*)", "/user/${segment}"))
+                        .path("/users/**")
+                        .filters(f -> f.rewritePath("/users/(?<segment>.*)", "/users/${segment}"))
                         .uri("http://localhost:8060"))
                 .route(p -> p
                         .path("/api/chat/**")

@@ -24,10 +24,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         String path = exchange.getRequest().getPath().toString();
-        System.out.println(path);
+        System.out.println("PATH!!!!!!!! " + path);
 
         // Bypass JWT check for registration endpoint
-        if (path.equals("/register")) {
+        if (path.equals("/users/register")) {
+            System.out.println("Moving forward!!!!");
             return chain.filter(exchange);
         }
 
