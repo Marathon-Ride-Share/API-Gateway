@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
        String path = exchange.getRequest().getPath().toString();
        String[] pathValues = path.split("/");
 
-       if (pathValues[1].equals("users") || pathValues[1].equals("chats") || pathValues[1].equals("rides") || pathValues[1].equals("reviews") || pathValues[1].equals("payments")) {
+       if (pathValues[1].equals("users") || pathValues[1].equals("chat") || pathValues[1].equals("rides") || pathValues[1].equals("reviews") || pathValues[1].equals("payments")) {
            return chain.filter(exchange);
        } else {
 
